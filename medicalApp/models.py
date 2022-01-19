@@ -10,6 +10,9 @@ class Usuario(models.Model):
     senha = models.CharField(max_length=16)
     data_criacao = models.DateTimeField(default=datetime.now, blank=True)
 
+    def __str__(self):
+        return self.nome
+
 class Paciente(models.Model):
     nome = models.CharField(max_length=150)
     telefone = models.CharField(max_length=16, unique=True, error_messages={"unique":"Telefone já cadastrado"})
@@ -19,6 +22,9 @@ class Paciente(models.Model):
     pais = models.CharField(max_length=150)
     CEP = models.CharField(max_length=9)
     data_criacao = models.DateTimeField(default=datetime.now, blank=True)
+
+    def __str__(self):
+        return self.nome
 
 class Agendamento(models.Model):
     A_COMFIRMAR = 'AC'
