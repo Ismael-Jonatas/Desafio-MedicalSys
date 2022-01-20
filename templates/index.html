@@ -2,8 +2,24 @@
 {% load static %}
 {% block content %}
     {% include 'partils/menu.html' %}
-    <div class="apresenta-home">
-        <h1>OLÁ MUNDO!</h1>
+    <div class="container-home">
+        <div class="area-principal">
+            <div class="conteudo-medical">
+                <h1>MedicalSys</h1>
+                <p>Sistema de agendamentos de consultas</p>
+                <figure>
+                    <img src="{% static 'img/logo.png' %}" alt="logo">
+                </figure>
+                <figcaption>Service.Net</figcaption>
+                <br>
+            </div>
+        </div>
+        <div class="area-center">
+        </div>
+        <div class="area-bottom">
+            
+
+        </div>
     </div>
     {% include 'partils/footer.html' %}
 {% endblock %} 
