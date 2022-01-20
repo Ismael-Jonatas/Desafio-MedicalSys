@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    {% include 'partils/menu.html' %}
     <div class="container-home">
+        {% include 'partils/menu.html' %}
         <div class="area-principal">
             <div class="conteudo-medical">
                 <h1>MedicalSys</h1>
@@ -20,6 +20,7 @@
             
 
         </div>
+        {% include 'partils/footer.html' %}
     </div>
-    {% include 'partils/footer.html' %}
+    
 {% endblock %} 
