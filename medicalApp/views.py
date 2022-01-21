@@ -1,7 +1,7 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import auth
 
-from .models import Usuario
+from .models import Paciente, Usuario
 
 # Create your views here.
 def index(request):
@@ -34,10 +34,12 @@ def cadastro_usuario(request):
 
 def login(request):
     if request.method == 'POST':
+        
         m = Usuario.objects.get(email=request.POST['email'])
         if m.senha == request.POST['senha']:
             request.session['member_id'] = m.id
-            return redirect('index')
+            request.session.set_expiry(1500)
+            return redirect('listar_pacientes')
         else:
             print('Usuario inexistente')
             return redirect('cadastro_usuario')   
@@ -50,3 +52,20 @@ def logout (request):
     except KeyError:
         pass
     return redirect('index')
+
+def listar_pacientes(request):
+    pacientes = Paciente.objects.all()
+    dados = {
+        'pacientes': pacientes
+    }
+    return render (request, 'listar-paciente.html', dados)
+
+def crud_paciente(request, paciente_id):
+    paciente = get_object_or_404(Paciente, pk = paciente_id)
+    exibir_paciente = {
+        'paciente':paciente
+    }
+    return render(request, 'paciente.html', exibir_paciente)
+
+def cadastro_paciente(request):
+    return render(request, 'cadastro-paciente.html')

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="container-home">
+        {% include 'partils/menu.html' %}
+        <div class="area-principal">
+            <div class="contact-area section-padding-0-80" style="margin-top: 5%;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="section-heading">
+                                <h2>Pacientes</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive-xl">
+                        <table class="table table-bordered" style="background-color: white;">
+                            <thead class="thead-dark">
+                              <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nome</th>
+                                <th scope="col">Telefone</th>
+                                <th scope="col">Endereco</th>
+                                <th scope="col">Cidade</th>
+                                <th scope="col">UF</th>
+                                <th scope="col">Pais</th>
+                                <th scope="col">CEP</th>
+                                <th scope="col">Data</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                {% if pacientes %}
+                                {% for paciente in pacientes %}
+                                <tr >
+                                    <th scope="row"><a href="{% url 'paciente' paciente.id %}">{{paciente.id}}</a></th>
+                                    <td>{{paciente.nome}}</td>
+                                    <td>{{paciente.telefone}}</td>
+                                    <td>{{paciente.endereco}}</td>
+                                    <td>{{paciente.cidade}}</td>
+                                    <td>{{paciente.UF}}</td>
+                                    <td>{{paciente.pais}}</td>
+                                    <td>{{paciente.CEP}}</td>
+                                    <td>{{paciente.data_criacao}}</td>
+                                </tr>
+                                {% endfor %}
+                                {% else %}
+                                <tr>
+                                    <td colspan="8">Ainda não há pacientes cadastrados</td>
+                                </tr>
+                                {% endif %}
+                            </tbody>
+                          </table>
+                          <nav aria-label="Navegação de página exemplo">
+                            <ul class="pagination">
+                              <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
+                              <li class="page-item"><a class="page-link" href="#">1</a></li>
+                              <li class="page-item"><a class="page-link" href="#">2</a></li>
+                              <li class="page-item"><a class="page-link" href="#">3</a></li>
+                              <li class="page-item"><a class="page-link" href="#">Próximo</a></li>
+                            </ul>
+                          </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'partils/footer.html' %}
+    </div>
+{% endblock %}
