@@ -4,7 +4,7 @@
     <div class="container-home">
         {% include 'partils/menu.html' %}
         <div class="area-principal">
-            <div class="contact-area section-padding-0-80" style="margin-top: 10%;">
+            <div class="contact-area section-padding-0-80" style="margin-top: 5%;">
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
@@ -16,7 +16,8 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="contact-form-area">
-                                <form action="" method="">
+                                <form action="{% url 'cadastro_usuario'%}" method="POST">
+                                    {% csrf_token %}
                                     <div class="row">
                                         <div class="col-12 col-lg-12">
                                             <label for="nome"><b>Nome completo</b></label>
@@ -28,15 +29,15 @@
                                         </div>
                                         <div class="col-12 col-lg-6">
                                             <label for="senha"><b>Senha</b></label>
-                                            <input type="password" class="form-control" name="password" placeholder="Digite sua senha" required>
+                                            <input type="password" class="form-control" name="senha" placeholder="Digite sua senha" required>
                                         </div>
                                         <div class="col-12 col-lg-6">
                                             <label for="senha2"><b>Confirmação de senha</b></label>
-                                            <input type="password" class="form-control" name="password2" placeholder="Digite sua senha mais uma vez" required>
+                                            <input type="password" class="form-control" name="senha2" placeholder="Digite sua senha mais uma vez" required>
                                         </div>
                                         <div class="col-12 col-lg-6">
                                             <label for="data_criacao"><b>Data</b></label>
-                                            <input type="datetime-local" class="form-control" name="data_criacao" required>
+                                            <input type="datetime-local" class="form-control" name="data" required>
                                         </div>
                                         <div class="col-12 text-center">
                                             <button class="btn btn-success" style="margin-top: 2%;" type="submit">Criar usuário</button>

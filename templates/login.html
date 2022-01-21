@@ -4,8 +4,47 @@
     <div class="container-home">
         {% include 'partils/menu.html' %}
         <div class="area-principal">
-            <h1>Login</h1>
+            <div class="contact-area section-padding-0-80" style="margin-top: 5%;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="section-heading">
+                                <h2>Login</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="contact-form-area">
+                                <form action="{% url 'login' %}" method="POST">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-12 col-lg-12">
+                                        <label for="email"><b>Email</b></label>
+                                            <input type="email" id="email" class="form-control" name="email" placeholder="Entre com o email cadastrado">
+                                        </div>
+                                            <div class="col-12 col-lg-12">
+                                            <label for="senha"><b>Senha</b></label>
+                                            <input id="senha" type="password" class="form-control" name="senha" placeholder="Digite aqui sua senha">
+                                        </div>
+                                        <div class="col-12 text-center">
+                                            <button class="btn btn-success" style="margin-top: 3%;" type="submit">Acessar</button>
+                                            <button type="button" class="btn btn-primary" style="margin-top: 3%;" onclick="exibirCriarUsuario()">Ainda não tem conta? Clique aqui</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         {% include 'partils/footer.html' %}
     </div>
+    <script>
+        function exibirCriarUsuario()
+        {
+             location.href = "{% url 'cadastro_usuario' %}";
+        } 
+        </script>    
 {% endblock %}
