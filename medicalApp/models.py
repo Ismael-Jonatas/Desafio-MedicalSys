@@ -6,7 +6,7 @@ from datetime import datetime
 
 class Usuario(models.Model):
     nome = models.CharField(max_length=150)
-    email = models.CharField(max_length=200, unique=True, error_messages={"unique": "Email já cadastrado"})
+    email = models.CharField(max_length=150, unique=True, error_messages={"unique": "Email já cadastrado"})
     senha = models.CharField(max_length=16)
     data_criacao = models.DateTimeField(default=datetime.now, blank=True)
 
@@ -17,8 +17,8 @@ class Paciente(models.Model):
     nome = models.CharField(max_length=150)
     telefone = models.CharField(max_length=16, unique=True, error_messages={"unique":"Telefone já cadastrado"})
     endereco = models.CharField(max_length=200)
-    cidade = models.CharField(max_length=50)
-    UF = models.CharField(max_length=50)
+    cidade = models.CharField(max_length=100)
+    UF = models.CharField(max_length=2)
     pais = models.CharField(max_length=150)
     CEP = models.CharField(max_length=9)
     data_criacao = models.DateTimeField(default=datetime.now, blank=True)
