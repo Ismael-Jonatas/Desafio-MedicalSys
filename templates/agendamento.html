@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container-home">
+    {% include 'partils/menu.html' %}
+    <div class="area-principal">
+        <div style="background-color: white; color: black;">
+            {% if agendamento %}
+                <h1>{{agendamento.descricao}}</h1>
+            {% endif %}
+        </div>
+    </div>
+    {% include 'partils/footer.html' %}
+</div>
+{% endblock %}

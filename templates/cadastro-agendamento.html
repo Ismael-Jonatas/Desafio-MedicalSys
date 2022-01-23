@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="container-home">
+        {% include 'partils/menu.html' %}
+        <div class="area-principal">
+            <div class="contact-area section-padding-0-80" style="margin-top: 5%;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="section-heading">
+                                <h2>Cadastrar Agendamento</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="contact-form-area">
+                                <form action="{% url 'cadastro_agendamento'%}" method="POST">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-12 col-lg-12">
+                                            <label for="medico"><b>Médico</b></label>
+                                            <select name="medico" id="id_select_medico" required class="form-control form-control-sm">
+                                                <option value="">Selecione</option>
+                                                {% if lista_usuarios %}
+                                                    {% for usuario in lista_usuarios %}
+                                                        <option value="{{usuario.id}}">{{usuario.nome}}</option>
+                                                    {% endfor %}
+                                                {% else %}    
+                                                {% endif %}
+                                            </select>
+                                        </div>
+                                        <div class="col-12 col-lg-12">
+                                            <label for="paciente"><b>Paciente</b></label>
+                                            <select name="paciente" id="id_select_paciente" required class="form-control form-control-sm">
+                                                <option value="">Selecione</option>
+                                                {% if lista_pacientes %}
+                                                    {% for paciente in lista_pacientes %}
+                                                        <option value="{{paciente.id}}">{{paciente.nome}}</option>
+                                                    {% endfor %}
+                                                {% else %}    
+                                                {% endif %}
+                                            </select>
+                                        </div>
+                                        <div class="col-12 col-lg-12">
+                                            <label for="status"><b>Status  de Agendamento</b></label>
+                                            <select name="status" id="id_select_status" required class="form-control form-control-sm">
+                                                <option value="">Selecione</option>
+                                                <option value="AC" selected>A confirmar</option>
+                                                <option value="C">Confirmado</option>
+                                                <option value="F">Finalizado</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12 col-lg-12">
+                                            <label for="descricao"><b>Descrição</b></label>
+                                            <input type="text" class="form-control" name="descricao" placeholder="Ex.: Consulta com médico Jonatas pela manhã, paciente Ismael" required>
+                                        </div>
+                                        <div class="col-12 col-lg-6">
+                                            <label for="data_criacao"><b>Data</b></label>
+                                            <input type="datetime-local" class="form-control" name="data" required>
+                                        </div>
+                        
+                                        <div class="col-12 text-center">
+                                            <button class="btn btn-success" style="margin-top: 2%;" type="submit">Adicionar agendamento</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>      
+        </div>
+        {% include 'partils/footer.html' %}
+    </div>
+    
+{% endblock %}

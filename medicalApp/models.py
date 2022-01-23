@@ -27,15 +27,15 @@ class Paciente(models.Model):
         return self.nome
 
 class Agendamento(models.Model):
-    A_COMFIRMAR = 'AC'
-    COMFIRMARDO = 'C'
+    A_CONFIRMAR = 'AC'
+    CONFIRMARDO = 'C'
     FINALIZADO = 'F'
     STATUS_AGENDAMENTO_CHOICES = [
-        (A_COMFIRMAR, 'A comfirmar'),
-        (COMFIRMARDO, 'Comfirmado'),
+        (A_CONFIRMAR, 'A confirmar'),
+        (CONFIRMARDO, 'Confirmado'),
         (FINALIZADO, 'Finalizado')
     ]
-    status_agendamento = models.CharField(max_length=2, choices=STATUS_AGENDAMENTO_CHOICES, default=A_COMFIRMAR)
+    status_agendamento = models.CharField(max_length=2, choices=STATUS_AGENDAMENTO_CHOICES, default=A_CONFIRMAR)
     data = models.DateTimeField(default=datetime.now, blank=True)
     descricao = models.TextField()
     medico = models.ForeignKey(Usuario, on_delete=models.CASCADE)

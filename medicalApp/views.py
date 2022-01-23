@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import auth
 
-from .models import Paciente, Usuario
+from .models import Agendamento, Paciente, Usuario
 
 # Create your views here.
 def index(request):
@@ -29,18 +29,17 @@ def cadastro_usuario(request):
         user.save()
         print('cadastrado')
         return redirect('login')
-    else:
-         return render(request, 'cadastro-usuario.html')
-
+    
+    return render(request, 'cadastro-usuario.html')
 
 def cadastro_paciente(request):
     if request.method == 'POST':
         nome = request.POST['nome']
         telefone = request.POST['telefone']
-        CEP = request.POST['cep']
+        cep = request.POST['cep']
         endereco = request.POST['endereco']
         cidade = request.POST['cidade']
-        UF = request.POST['uf']
+        uf = request.POST['uf']
         pais = request.POST['pais']
 
         if not nome.strip():
@@ -52,20 +51,45 @@ def cadastro_paciente(request):
         if not cidade.strip():
             print('O campo cidade não pode está em branco')
             redirect('cadastro_paciente')
-        if not UF.strip():
+        if not uf.strip():
             print('O campo UF não pode está em branco')
             redirect('cadastro_paciente')
         if not pais.strip():
             print('O campo pais não pode está em branco')
             redirect('cadastro_paciente')
 
-        paciente = Paciente.objects.create(nome=nome,telefone=telefone,CEP=CEP,endereco=endereco,cidade=cidade,UF=UF,pais=pais)
+        paciente = Paciente.objects.create(nome=nome,telefone=telefone,CEP=cep,endereco=endereco,cidade=cidade,UF=uf,pais=pais)
         paciente.save()
         print('cadastrado Paciente '+nome)
         return redirect('listar_pacientes')
-    else:    
-        return render(request, 'cadastro-paciente.html')
+       
+    return render(request, 'cadastro-paciente.html')
 
+def cadastro_agendamento(request):
+    
+
+    if request.method == 'POST':
+        medico = request.POST['medico']
+        paciente = request.POST['paciente']
+        status = request.POST['status']
+        descricao = request.POST['descricao']
+        data = request.POST['data']
+
+        if not descricao.strip():
+            print('O campo descricao não pode está em branco')
+            return redirect('cadastro_agendamento')
+        
+        agendado = Agendamento.objects.create(status_agendamento=status, data=data, descricao=descricao, medico_id = medico, paciente_id = paciente)
+        agendado.save()
+        return redirect('listar_agendamentos')
+                
+
+    pacientes = []
+    pacientes = Paciente.objects.all().order_by('id')
+    usuarios = []
+    usuarios = Usuario.objects.all().order_by('id')
+
+    return render(request, 'cadastro-agendamento.html', {'lista_usuarios':usuarios, 'lista_pacientes':pacientes})
 
 def listar_pacientes(request):
     pacientes = Paciente.objects.all().order_by('id')
@@ -76,6 +100,14 @@ def listar_pacientes(request):
     }
     return render (request, 'listar-paciente.html',dados)
 
+def listar_agendamentos(request):
+    agendamentos = Agendamento.objects.all().order_by('id')
+    dados = {
+        'agendamentos':agendamentos
+    }
+
+    return render(request, 'listar-agendamento.html', dados)
+
 def crud_paciente(request, paciente_id):
     paciente = get_object_or_404(Paciente, pk = paciente_id)
     exibir_paciente = {
@@ -83,23 +115,34 @@ def crud_paciente(request, paciente_id):
     }
     return render(request, 'paciente.html', exibir_paciente)
 
-
-
+def crud_agendamento(request, agendamento_id):
+    agendamento = get_object_or_404(Agendamento, pk = agendamento_id)
+    exibir_agendamento = {
+        'agendamento': agendamento
+    }
+    return render(request, 'agendamento.html', exibir_agendamento)
 
 def login(request):
     if request.method == 'POST':
-        
-        m = Usuario.objects.get(email=request.POST['email'])
-        if m.senha == request.POST['senha']:
-            request.session['member_id'] = m.id
-            request.session.set_expiry(1500)
-            return redirect('listar_pacientes')
+        email=request.POST['email']
+        senha = request.POST['senha']
+        if Usuario.objects.filter(email=email).exists():
+            user = Usuario.objects.get(email=email)
+            nome = Usuario.objects.filter(email=email).values_list('nome', flat=True).get()
+            print(nome) 
+            if user.senha == senha:
+                request.session['member_id'] = user.id
+                request.session.set_expiry(1500)
+                print('senha correta')
+                return redirect('listar_pacientes')
+            else:
+                print('Senha incorreta')        
+                return redirect('login')
         else:
-            print('Usuario inexistente')
+            print('Email não cadastrado')
             return redirect('cadastro_usuario')   
-    else:
-        return render(request, 'login.html')
-
+    
+    return render(request, 'login.html')
 
 def logout (request):
     try:

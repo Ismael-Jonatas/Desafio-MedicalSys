@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="container-home">
+        {% include 'partils/menu.html' %}
+        <div class="area-principal">
+            <div class="contact-area section-padding-0-80" style="margin-top: 5%;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="section-heading">
+                                <h2>Agendamentos</h2>
+                            </div>
+                            <div class="botao-add">
+                                <a href="{% url 'cadastro_agendamento' %}" class="btn btn-primary btn-lg" role="button" >Cadastrar</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive-xl">
+                        <table class="table table-bordered" style="background-color: white;">
+                            <thead class="thead-dark">
+                              <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Data</th>
+                                <th scope="col">Medico</th>
+                                <th scope="col">Paciente</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Descrição</th>
+                            
+                              </tr>
+                            </thead>
+                            <tbody>
+                                {% if agendamentos %}
+                                {% for agendamento in agendamentos %}
+                                <tr >
+                                    <th scope="row"><a href="{% url 'agendamento' agendamento.id %}">{{agendamento.id}}</a></th>
+                                    <td>{{agendamento.data}}</td>
+                                    <td>{{agendamento.medico}}</td>
+                                    <td>{{agendamento.paciente}}</td>
+                                    <td>{{agendamento.status_agendamento}}</td>
+                                    <td>{{agendamento.descricao}}</td>
+                        
+                                </tr>
+                                {% endfor %}
+                                {% else %}
+                                <tr>
+                                    <td colspan="8">Ainda não há agendamentos cadastrados</td>
+                                </tr>
+                                {% endif %}
+                            </tbody>
+                          </table>
+                          <nav aria-label="Navegação de página exemplo">
+                            <ul class="pagination">
+                              <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
+                              <li class="page-item"><a class="page-link" href="#">1</a></li>
+                              <li class="page-item"><a class="page-link" href="#">2</a></li>
+                              <li class="page-item"><a class="page-link" href="#">3</a></li>
+                              <li class="page-item"><a class="page-link" href="#">Próximo</a></li>
+                            </ul>
+                          </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'partils/footer.html' %}
+    </div>
+{% endblock %}

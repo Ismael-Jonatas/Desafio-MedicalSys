@@ -14,11 +14,26 @@
                             <a class="nav-link" href="{% url 'login' %}">Login <span class="sr-only">(current)</span></a>
                         </li>
                         
-                            <li class="nav-item active">
-                                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-                            </li>
                         <li class="nav-item active">
-                            <a class="nav-link" href="{% url 'cadastro_usuario' %}">Cadastro</a>
+                            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Cadastrar
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <a class="dropdown-item" href="{% url 'cadastro_usuario' %}">Cadastrar usuário</a>
+                              <a class="dropdown-item" href="{% url 'cadastro_agendamento' %}">Cadastrar agendamento</a>
+                              <a class="dropdown-item" href="{% url 'cadastro_paciente' %}">Cadastrar pacinete</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Exibir lista
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <a class="dropdown-item" href="{% url 'listar_agendamentos' %}">Lista de agendamento</a>
+                              <a class="dropdown-item" href="{% url 'listar_pacientes' %}">Lista de pacinete</a>
                         </li>
                     </ul>
                     {% include 'partils/buscar.html' %}
