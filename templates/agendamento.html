@@ -31,7 +31,15 @@
                                     <td>{{agendamento.data}}</td>
                                     <td>{{agendamento.medico}}</td>
                                     <td>{{agendamento.paciente}}</td>
-                                    <td>{{agendamento.status_agendamento}}</td>
+                                    {% if agendamento.status_agendamento == "AC" %}
+                                        <td style="color: darkblue; font-size: large;"><strong>{{agendamento.status_agendamento}}</strong></td>
+                                    {% endif %}
+                                    {% if agendamento.status_agendamento == "C" %}
+                                        <td style="color: green; font-size: large;"><strong>{{agendamento.status_agendamento}}</strong></td>
+                                    {% endif %}
+                                    {% if agendamento.status_agendamento == "F" %}
+                                        <td style="color: red; font-size: large;"><strong>{{agendamento.status_agendamento}}</strong></td>
+                                    {% endif %}
                                     <td>{{agendamento.descricao}}</td>
                                 </tr>
                             </tbody>
