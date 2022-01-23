@@ -1,6 +1,5 @@
 from django.shortcuts import get_object_or_404, redirect, render
-from django.contrib import auth
-
+from django.contrib import auth, messages
 from .models import Agendamento, Paciente, Usuario
 
 # Create your views here.
@@ -16,18 +15,18 @@ def cadastro_usuario(request):
 
 
         if not nome.strip():
-            print('O campo nome não pode ficar em branco')
+            messages.error(request, 'O campo nome não pode ficar em branco')
             return redirect('cadastro_usuario')
         if senha != senha2:
-            print('As senhas não são iguais')
+            messages.error(request, 'As senhas não são iguais')
             return redirect('cadastro_usuario')
         if Usuario.objects.filter(email=email).exists():
-            print('Usuário já cadastrado')
+            messages.error(request, 'Email já cadastrado')
             return redirect('cadastro_usuario')
 
         user = Usuario.objects.create(nome=nome, email=email, senha=senha)
         user.save()
-        print('cadastrado')
+        messages.success(request, 'Usuário cadastrado com sucesso')
         return redirect('login')
     
     return render(request, 'cadastro-usuario.html')
@@ -43,24 +42,24 @@ def cadastro_paciente(request):
         pais = request.POST['pais']
 
         if not nome.strip():
-            print('O campo nome não pode está em branco')
+            messages.error(request, 'O campo nome não pode ficar em branco')
             redirect('cadastro_paciente')
         if not endereco.strip():
-            print('O campo endereço não pode está em branco')
+            messages.error(request, 'O campo endereço não pode ficar em branco')
             redirect('cadastro_paciente')
         if not cidade.strip():
-            print('O campo cidade não pode está em branco')
+            messages.error(request, 'O campo cidade não pode ficar em branco')
             redirect('cadastro_paciente')
         if not uf.strip():
-            print('O campo UF não pode está em branco')
+            messages.error(request, 'O campo UF não pode ficar em branco')
             redirect('cadastro_paciente')
         if not pais.strip():
-            print('O campo pais não pode está em branco')
+            messages.error(request, 'O campo Pais não pode ficar em branco')
             redirect('cadastro_paciente')
 
         paciente = Paciente.objects.create(nome=nome,telefone=telefone,CEP=cep,endereco=endereco,cidade=cidade,UF=uf,pais=pais)
         paciente.save()
-        print('cadastrado Paciente '+nome)
+        messages.success(request, 'Paciente cadastrado com sucesso')
         return redirect('listar_pacientes')
        
     return render(request, 'cadastro-paciente.html')
@@ -76,11 +75,12 @@ def cadastro_agendamento(request):
         data = request.POST['data']
 
         if not descricao.strip():
-            print('O campo descricao não pode está em branco')
+            messages.error(request, 'O campo descricao não pode ficar em branco')
             return redirect('cadastro_agendamento')
         
         agendado = Agendamento.objects.create(status_agendamento=status, data=data, descricao=descricao, medico_id = medico, paciente_id = paciente)
         agendado.save()
+        messages.success(request, 'Agendamento cadastrado com sucesso')
         return redirect('listar_agendamentos')
                 
 
@@ -101,7 +101,7 @@ def listar_pacientes(request):
     return render (request, 'listar-paciente.html',dados)
 
 def listar_agendamentos(request):
-    agendamentos = Agendamento.objects.all().order_by('id')
+    agendamentos = Agendamento.objects.all().order_by('id').filter()
     dados = {
         'agendamentos':agendamentos
     }
@@ -128,18 +128,17 @@ def login(request):
         senha = request.POST['senha']
         if Usuario.objects.filter(email=email).exists():
             user = Usuario.objects.get(email=email)
-            nome = Usuario.objects.filter(email=email).values_list('nome', flat=True).get()
-            print(nome) 
+            nome = Usuario.objects.filter(email=email).values_list('nome', flat=True).get() 
             if user.senha == senha:
                 request.session['member_id'] = user.id
                 request.session.set_expiry(1500)
-                print('senha correta')
+                messages.success(request, 'Logado com sucesso')
                 return redirect('listar_pacientes')
             else:
-                print('Senha incorreta')        
+                messages.error(request, 'Senha incorreta')        
                 return redirect('login')
         else:
-            print('Email não cadastrado')
+            messages.error(request, 'Email não cadastrado')
             return redirect('cadastro_usuario')   
     
     return render(request, 'login.html')
@@ -147,6 +146,7 @@ def login(request):
 def logout (request):
     try:
         del request.session['member_id']
+        messages.success(request, 'Logout efetuado com sucesso')
     except KeyError:
         pass
     return redirect('index')
