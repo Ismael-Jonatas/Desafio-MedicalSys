@@ -4,7 +4,7 @@
     <div class="container-home">
         {% include 'partils/menu.html' %}
         <div class="area-principal">
-            <div class="contact-area section-padding-0-80" style="margin-top: 5%;">
+            <div class="contact-area section-padding-0-80" style="margin-top: 2%;">
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
@@ -42,10 +42,73 @@
                                 </tr>
                             </tbody>
                           </table>
-                          <div class="button-editar-excluir">
-                            <a href="#" class="btn btn-outline-success btn-" role="button">Editar</a>
-                            <a href="{% url 'deleta_paciente' paciente.id %}" class="btn btn-outline-danger btn-md" role="button">Deletar</a>
+                          <div class="botao-excluir">
+                            <a href="{% url 'deleta_paciente' paciente.id %}" class="btn btn-danger" style="width: 100%;" role="button">Deletar</a>
                           </div>
+                          <m-accordion>
+                            <details style="margin-bottom: 3%;">
+                                <summary>Editar</summary>
+                                <main>
+                                    <div class="contact-area section-padding-0-80">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="section-heading">
+                                                        <h2 style="margin-bottom: 3%;">Paciente</h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="contact-form-area">
+                                                        <form action="{% url 'edita_paciente' %}" method="POST">
+                                                            {% csrf_token %}
+                                                            <input type="text" id="paciente_id" class="form-control" name="paciente_id" value="{{paciente.id}}" hidden>
+                                                            <div class="row">
+                                                                <div class="col-12 col-lg-12">
+                                                                    <label for="nome"><b>Nome completo</b></label>
+                                                                    <input type="text" class="form-control" name="nome" placeholder="Ex.: Ismael Jônatas dos Santos Silva" value="{{paciente.nome}}" required>
+                                                                </div>
+                                                                <div class="col-12 col-lg-12">
+                                                                    <label for="telefone"><b>Telefone</b></label>
+                                                                    <input type="text" class="form-control" pattern="\(\d{2}\)\d{5}-\d{4}" name="telefone" placeholder="Ex.: (00)00000-0000" value="{{paciente.telefone}}" required/>
+                                                                </div>
+                                                                <div class="col-12 col-lg-6">
+                                                                    <label for="CEP"><b>CEP</b></label>
+                                                                    <input type="text" pattern="\d{5}-\d{3}" name="cep" id="cep" size="10" maxlength="9" onblur="pesquisacep(this.value)" class="form-control"  placeholder="EX.: 58030-110"  value="{{paciente.CEP}}" required>
+                                                                </div>
+                                                                <div class="col-12 col-lg-6">
+                                                                    <label for="endereco"><b>Endereço</b></label>
+                                                                    <input type="text" id="endereco" class="form-control" name="endereco" placeholder="EX.: Av. Espírito Santo, 883 - Estados" value="{{paciente.endereco}}" required>
+                                                                </div>
+                                                        
+                                                                <div class="col-12 col-lg-6">
+                                                                    <label for="cidade"><b>Cidade</b></label>
+                                                                    <input type="text" id="cidade" class="form-control" name="cidade" placeholder="EX.: João Pessoa" value="{{paciente.cidade}}" required>
+                                                                </div>
+                                                                <div class="col-12 col-lg-6">
+                                                                    <label for="UF"><b>UF</b></label>
+                                                                    <input type="text" class="form-control" id="uf" size="2" name="uf" placeholder="EX.: PB" value="{{paciente.UF}}" required>
+                                                                </div>
+                                                                <div class="col-12 col-lg-6">
+                                                                    <label for="pais"><b>Pais</b></label>
+                                                                    <input type="text" id="pais" class="form-control" name="pais" placeholder="EX.: Brasil" value="{{paciente.pais}}" required>
+                                                                </div>
+                                                                
+                                                                <div class="col-12 text-center">
+                                                                    <button class="btn btn-success" style="margin-top: 2%;" type="submit">Atualizar Paciente</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </main>
+                            </details>
+                        </m-accordion>
                     </div>
                 </div>
             </div>

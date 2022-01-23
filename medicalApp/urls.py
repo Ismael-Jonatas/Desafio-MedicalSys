@@ -14,6 +14,9 @@ urlpatterns = [
     path('paciente/<int:paciente_id>', views.crud_paciente, name='paciente'),
     path('agendamento/<int:agendamento_id>', views.crud_agendamento, name='agendamento'),
     path('deleta-paciente/<int:paciente_id>', views.deleta_paciente, name='deleta_paciente'),
-    path('deleta-agendamento/<int:agendamento_id>', views.deleta_agendamento, name='deleta_agendamento')
+    path('edita-paciente', views.edita_paciente, name='edita_paciente'),
+    path('deleta-agendamento/<int:agendamento_id>', views.deleta_agendamento, name='deleta_agendamento'),
+    path('edita-agendamento', views.edita_agendamento, name='edita_agendamento')
+
 
 ]

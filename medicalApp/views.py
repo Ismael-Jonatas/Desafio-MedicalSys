@@ -1,3 +1,4 @@
+from re import S
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import auth, messages
 from .models import Agendamento, Paciente, Usuario
@@ -45,19 +46,19 @@ def cadastro_paciente(request):
 
         if not nome.strip():
             messages.error(request, 'O campo nome não pode ficar em branco')
-            redirect('cadastro_paciente')
+            return redirect('cadastro_paciente')
         if not endereco.strip():
             messages.error(request, 'O campo endereço não pode ficar em branco')
-            redirect('cadastro_paciente')
+            return redirect('cadastro_paciente')
         if not cidade.strip():
             messages.error(request, 'O campo cidade não pode ficar em branco')
-            redirect('cadastro_paciente')
+            return redirect('cadastro_paciente')
         if not uf.strip():
             messages.error(request, 'O campo UF não pode ficar em branco')
-            redirect('cadastro_paciente')
+            return redirect('cadastro_paciente')
         if not pais.strip():
             messages.error(request, 'O campo Pais não pode ficar em branco')
-            redirect('cadastro_paciente')
+            return redirect('cadastro_paciente')
 
         paciente = Paciente.objects.create(nome=nome,telefone=telefone,CEP=cep,endereco=endereco,cidade=cidade,UF=uf,pais=pais)
         paciente.save()
@@ -91,6 +92,47 @@ def deleta_paciente(request, paciente_id):
     messages.warning(request,'Paciente deletado com sucesso')
     return redirect('listar_pacientes')
 
+
+def edita_paciente(request):
+    if request.method == 'POST':
+        nome = request.POST['nome']
+        telefone = request.POST['telefone']
+        cep = request.POST['cep']
+        endereco = request.POST['endereco']
+        cidade = request.POST['cidade']
+        uf = request.POST['uf']
+        pais = request.POST['pais']
+
+        if not nome.strip():
+            messages.error(request, 'O campo nome não pode ficar em branco')
+            return redirect('edita_paciente')
+        if not endereco.strip():
+            messages.error(request, 'O campo endereço não pode ficar em branco')
+            return redirect('edita_paciente')
+        if not cidade.strip():
+            messages.error(request, 'O campo cidade não pode ficar em branco')
+            return redirect('edita_paciente')
+        if not uf.strip():
+            messages.error(request, 'O campo UF não pode ficar em branco')
+            return redirect('edita_paciente')
+        if not pais.strip():
+            messages.error(request, 'O campo Pais não pode ficar em branco')
+            return redirect('edita_paciente')
+
+        paciente_id = request.POST['paciente_id']
+        paciente = Paciente.objects.get(pk=paciente_id)
+        paciente.nome = nome
+        paciente.telefone = telefone
+        paciente.CEP = cep
+        paciente.endereco = endereco
+        paciente.cidade = cidade
+        paciente.UF = uf
+        paciente.pais = pais
+
+        paciente.save()
+        messages.info(request,'Paciente editado com sucesso')
+        return redirect('listar_pacientes')
+    return redirect('listar_pacientes')
 
 def cadastro_agendamento(request):
     if request.method == 'POST':
@@ -128,22 +170,49 @@ def listar_agendamentos(request):
 
 
 def crud_agendamento(request, agendamento_id):
+    
+    agendamento = []
     agendamento = get_object_or_404(Agendamento, pk = agendamento_id)
-    exibir_agendamento = {
-        'agendamento': agendamento
-    }
-    return render(request, 'agendamento.html', exibir_agendamento)
+    pacientes = []
+    pacientes = Paciente.objects.all().order_by('id')
+    usuarios = []
+    usuarios = Usuario.objects.all().order_by('id')
+
+    return render(request, 'agendamento.html', {'agendamento':agendamento, 'lista_usuarios':usuarios, 'lista_pacientes':pacientes})
 
 
 def deleta_agendamento(request, agendamento_id):
-    agendamento = get_object_or_404(Paciente, pk=agendamento_id)
+    agendamento = get_object_or_404(Agendamento, pk=agendamento_id)
     agendamento.delete()
     messages.warning(request,'Agendamento deletado com sucesso')
     return redirect('listar_agendamentos')
 
 
+def edita_agendamento(request):
+    if request.method == 'POST':
+        medico = request.POST['medico']
+        paciente = request.POST['paciente']
+        status = request.POST['status']
+        descricao = request.POST['descricao']
+        data = request.POST['data']
 
+        if not descricao.strip():
+            messages.error(request, 'O campo descricao não pode ficar em branco')
+            return redirect('listar_agendamentos')
 
+        agendamento_id = request.POST['agendamento_id']
+        agendamento = Agendamento.objects.get(pk=agendamento_id)
+        agendamento.medico_id = medico
+        agendamento.paciente_id = paciente
+        agendamento.status_agendamento = status
+        agendamento.descricao = descricao
+        agendamento.data = data
+
+        agendamento.save()
+        messages.info(request,'Agendamento editado com sucesso')
+        return redirect('listar_agendamentos')
+    
+    return redirect('listar_agendamentos')
 
 def login(request):
     if request.method == 'POST':

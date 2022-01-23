@@ -75,7 +75,10 @@ figcaption{
 .botao-add{
     margin-left: 80%;
     margin-bottom: 3%;
+}
 
+.botao-excluir{
+    margin-bottom: 2%;
 }
 
 @media only screen and (max-width: 1200px){
@@ -178,3 +181,41 @@ figcaption{
     }
 
 }
+
+
+
+
+details {
+    overflow: hidden;
+    margin-top: 0.125em;
+    border: 1px solid #dddddd;
+    background: #ffffff;
+    color: #333333;
+    border-radius: 3px;
+  }
+  
+  details summary {
+    text-align: center;
+    display: block;
+    cursor: pointer;
+    padding: .5em .5em .5em .7em;
+    background: #ededed;
+    color: #2b2b2b;
+    border-radius: 3px 3px 0 0;
+  }
+  
+  details:not([open]) summary:hover,
+  details:not([open]) summary:focus {      
+    background: rgb(0, 162, 255);
+    color: #454545;
+  }
+  
+  details[open] summary {
+    border: 1px solid #003eff;
+    background: rgb(0, 162, 255);
+    color: #ffffff;
+  }
+  
+  details main {
+    padding: 1em 2.2em;
+  }
