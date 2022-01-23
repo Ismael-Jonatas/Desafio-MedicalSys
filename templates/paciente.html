@@ -1,15 +1,55 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<div class="container-home">
-    {% include 'partils/menu.html' %}
-    <div class="area-principal">
-        <div style="background-color: white; color: black;">
-            {% if paciente %}
-            <h1>{{paciente.nome}}</h1>
-            {% endif %}
+    <div class="container-home">
+        {% include 'partils/menu.html' %}
+        <div class="area-principal">
+            <div class="contact-area section-padding-0-80" style="margin-top: 5%;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="section-heading">
+                                <h2>#{{paciente.id}} Paciente {{paciente.nome}}</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive-xl">
+                        <table class="table table-bordered" style="background-color: white;">
+                            <thead class="thead-dark">
+                              <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nome</th>
+                                <th scope="col">Telefone</th>
+                                <th scope="col">Endereco</th>
+                                <th scope="col">Cidade</th>
+                                <th scope="col">UF</th>
+                                <th scope="col">Pais</th>
+                                <th scope="col">CEP</th>
+                                <th scope="col">Data</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <tr >
+                                    <th scope="row">{{paciente.id}}</a></th>
+                                    <td>{{paciente.nome}}</td>
+                                    <td>{{paciente.telefone}}</td>
+                                    <td>{{paciente.endereco}}</td>
+                                    <td>{{paciente.cidade}}</td>
+                                    <td>{{paciente.UF}}</td>
+                                    <td>{{paciente.pais}}</td>
+                                    <td>{{paciente.CEP}}</td>
+                                    <td>{{paciente.data_criacao}}</td>
+                                </tr>
+                            </tbody>
+                          </table>
+                          <div class="button-editar-excluir">
+                            <a href="#" class="btn btn-outline-success btn-" role="button">Editar</a>
+                            <a href="{% url 'deleta_paciente' paciente.id %}" class="btn btn-outline-danger btn-md" role="button">Deletar</a>
+                          </div>
+                    </div>
+                </div>
+            </div>
         </div>
+        {% include 'partils/footer.html' %}
     </div>
-    {% include 'partils/footer.html' %}
-</div>
 {% endblock %}

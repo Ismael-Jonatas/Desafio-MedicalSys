@@ -1,15 +1,49 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<div class="container-home">
-    {% include 'partils/menu.html' %}
-    <div class="area-principal">
-        <div style="background-color: white; color: black;">
-            {% if agendamento %}
-                <h1>{{agendamento.descricao}}</h1>
-            {% endif %}
+    <div class="container-home">
+        {% include 'partils/menu.html' %}
+        <div class="area-principal">
+            <div class="contact-area section-padding-0-80" style="margin-top: 5%;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="section-heading">
+                                <h2>Agendamento #{{agendamento.id}}</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive-xl">
+                        <table class="table table-bordered" style="background-color: white;">
+                            <thead class="thead-dark">
+                              <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Data</th>
+                                <th scope="col">Medico</th>
+                                <th scope="col">Paciente</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Descrição</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <tr >
+                                    <th scope="row">{{agendamento.id}}</a></th>
+                                    <td>{{agendamento.data}}</td>
+                                    <td>{{agendamento.medico}}</td>
+                                    <td>{{agendamento.paciente}}</td>
+                                    <td>{{agendamento.status_agendamento}}</td>
+                                    <td>{{agendamento.descricao}}</td>
+                                </tr>
+                            </tbody>
+                          </table>
+                          <div class="button-editar-excluir">
+                            <a href="#" class="btn btn-outline-success btn-" role="button">Editar</a>
+                            <a href="{% url 'deleta_agendamento' agendamento.id %}" class="btn btn-outline-danger btn-md" role="button">Deletar</a>
+                          </div>
+                    </div>
+                </div>
+            </div>
         </div>
+        {% include 'partils/footer.html' %}
     </div>
-    {% include 'partils/footer.html' %}
-</div>
 {% endblock %}

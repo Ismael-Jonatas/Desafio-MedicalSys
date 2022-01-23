@@ -11,6 +11,9 @@ urlpatterns = [
     path('logout', views.logout, name='logout'),
     path('listar-pacientes', views.listar_pacientes, name='listar_pacientes'),
     path('listar-agendamentos', views.listar_agendamentos, name='listar_agendamentos' ),
-    path('listar/<int:paciente_id>', views.crud_paciente, name='paciente'),
-    path('agendamento/<int:agendamento_id>', views.crud_agendamento, name='agendamento')
+    path('paciente/<int:paciente_id>', views.crud_paciente, name='paciente'),
+    path('agendamento/<int:agendamento_id>', views.crud_agendamento, name='agendamento'),
+    path('deleta-paciente/<int:paciente_id>', views.deleta_paciente, name='deleta_paciente'),
+    path('deleta-agendamento/<int:agendamento_id>', views.deleta_agendamento, name='deleta_agendamento')
+
 ]

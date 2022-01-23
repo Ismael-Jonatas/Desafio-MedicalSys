@@ -6,6 +6,7 @@ from .models import Agendamento, Paciente, Usuario
 def index(request):
     return render(request, 'index.html')
 
+
 def cadastro_usuario(request):
     if request.method == 'POST':
         nome = request.POST['nome']
@@ -30,6 +31,7 @@ def cadastro_usuario(request):
         return redirect('login')
     
     return render(request, 'cadastro-usuario.html')
+
 
 def cadastro_paciente(request):
     if request.method == 'POST':
@@ -64,9 +66,33 @@ def cadastro_paciente(request):
        
     return render(request, 'cadastro-paciente.html')
 
-def cadastro_agendamento(request):
-    
 
+def listar_pacientes(request):
+    pacientes = Paciente.objects.all().order_by('id')
+    for paciente in pacientes:
+        paciente.data_criacao = paciente.data_criacao.strftime("%b %d, %Y")
+    dados = {
+        'pacientes': pacientes
+    }
+    return render (request, 'listar-paciente.html',dados)
+
+
+def crud_paciente(request, paciente_id):
+    paciente = get_object_or_404(Paciente, pk = paciente_id)
+    exibir_paciente = {
+        'paciente':paciente
+    }
+    return render(request, 'paciente.html', exibir_paciente)
+
+
+def deleta_paciente(request, paciente_id):
+    paciente = get_object_or_404(Paciente, pk=paciente_id)
+    paciente.delete()
+    messages.warning(request,'Paciente deletado com sucesso')
+    return redirect('listar_pacientes')
+
+
+def cadastro_agendamento(request):
     if request.method == 'POST':
         medico = request.POST['medico']
         paciente = request.POST['paciente']
@@ -91,14 +117,6 @@ def cadastro_agendamento(request):
 
     return render(request, 'cadastro-agendamento.html', {'lista_usuarios':usuarios, 'lista_pacientes':pacientes})
 
-def listar_pacientes(request):
-    pacientes = Paciente.objects.all().order_by('id')
-    for paciente in pacientes:
-        paciente.data_criacao = paciente.data_criacao.strftime("%b %d, %Y")
-    dados = {
-        'pacientes': pacientes
-    }
-    return render (request, 'listar-paciente.html',dados)
 
 def listar_agendamentos(request):
     agendamentos = Agendamento.objects.all().order_by('id').filter()
@@ -108,12 +126,6 @@ def listar_agendamentos(request):
 
     return render(request, 'listar-agendamento.html', dados)
 
-def crud_paciente(request, paciente_id):
-    paciente = get_object_or_404(Paciente, pk = paciente_id)
-    exibir_paciente = {
-        'paciente':paciente
-    }
-    return render(request, 'paciente.html', exibir_paciente)
 
 def crud_agendamento(request, agendamento_id):
     agendamento = get_object_or_404(Agendamento, pk = agendamento_id)
@@ -121,6 +133,17 @@ def crud_agendamento(request, agendamento_id):
         'agendamento': agendamento
     }
     return render(request, 'agendamento.html', exibir_agendamento)
+
+
+def deleta_agendamento(request, agendamento_id):
+    agendamento = get_object_or_404(Paciente, pk=agendamento_id)
+    agendamento.delete()
+    messages.warning(request,'Agendamento deletado com sucesso')
+    return redirect('listar_agendamentos')
+
+
+
+
 
 def login(request):
     if request.method == 'POST':
@@ -142,6 +165,7 @@ def login(request):
             return redirect('cadastro_usuario')   
     
     return render(request, 'login.html')
+
 
 def logout (request):
     try:
