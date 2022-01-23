@@ -1,6 +1,6 @@
 # Desafio-MedicalSys
 
-OBS: essas passos descritos abaixo foram feitos em sistema windows pelo poweshell. 
+OBS: esses passos descritos abaixo foram feitos em sistema windows pelo poweshell. 
 
 Forma de execução em localHost:
 
