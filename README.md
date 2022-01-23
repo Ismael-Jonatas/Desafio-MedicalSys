@@ -38,6 +38,6 @@ com o comando: "pip install psycopg2", e depois "pip install psycopg2-binary". E
 
 4) - por fim o projeto é executado no localhost utilizando o comando para iniciar o server local do projeto com o comando "py manage.py runserver".
 
-OBS: o projeto também possui django admin instalado. comanado utilizado "pip install django-admin", no arquivo admin.py no diretorio do medicalApp/admin.py
+OBS: o projeto também possui django admin instalado. comando utilizado "pip install django-admin", no arquivo admin.py no diretorio do medicalApp/admin.py
 está algumas configurações para uso do django-admin, não se esquecer de criar o user admin se caso venha usar o django-admin.
 comando para criar o user admin é "py manage.py createsuperuser".
