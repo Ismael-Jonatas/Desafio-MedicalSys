@@ -1,5 +1,7 @@
 # Desafio-MedicalSys
 
+É necessario ter o python instalado na sua máquina. Versão usada por mim durante desenvolvimento foi a 3.10.1.
+
 OBS: esses passos descritos abaixo foram feitos em sistema windows pelo terminal powershell. 
 
 Forma de execução em localHost:
