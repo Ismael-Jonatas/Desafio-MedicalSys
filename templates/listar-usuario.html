@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="container-home">
+        {% include 'partils/menu.html' %}
+        <div class="area-principal">
+            <div class="contact-area section-padding-0-80" style="margin-top: 5%;">
+                <div class="container">
+                    {% include 'partils/alertas.html' %}
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="section-heading">
+                                <h2>Usuarios</h2>
+                            </div>
+                            <div class="botao-add">
+                                <a href="{% url 'cadastro_usuario' %}" class="btn btn-primary btn-lg" role="button" >Cadastrar</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive-xl">
+                        <table class="table table-bordered" style="background-color: white;">
+                            <thead class="thead-dark">
+                              <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nome</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Data</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                {% if usuarios %}
+                                {% for usuario in usuarios %}
+                                <tr >
+                                    <th scope="row"><a href="{% url 'usuario' usuario.id %}">{{usuario.id}}</a></th>
+                                    <td>{{usuario.nome}}</td>
+                                    <td>{{usuario.email}}</td>
+                                    <td>{{usuario.data_criacao}}</td>
+                                </tr>
+                                {% endfor %}
+                                {% else %}
+                                <tr>
+                                    <td colspan="8">Ainda não há usuarios cadastrados</td>
+                                </tr>
+                                {% endif %}
+                            </tbody>
+                          </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'partils/footer.html' %}
+    </div>
+{% endblock %}

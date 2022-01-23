@@ -16,7 +16,11 @@ urlpatterns = [
     path('deleta-paciente/<int:paciente_id>', views.deleta_paciente, name='deleta_paciente'),
     path('edita-paciente', views.edita_paciente, name='edita_paciente'),
     path('deleta-agendamento/<int:agendamento_id>', views.deleta_agendamento, name='deleta_agendamento'),
-    path('edita-agendamento', views.edita_agendamento, name='edita_agendamento')
+    path('edita-agendamento', views.edita_agendamento, name='edita_agendamento'),
+    path('listar-usuarios', views.listar_usuario, name="listar_usuarios"),
+    path('usuario/<int:usuario_id>', views.crud_usuario, name='usuario'),
+    path('deleta-usuario/<int:usuario_id>', views.deleta_usuario, name='deleta_usuario'),
+    path('edita-usuario', views.edita_usuario, name='edita_usuario'),
 
 
 ]

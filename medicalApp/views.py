@@ -19,6 +19,9 @@ def cadastro_usuario(request):
         if not nome.strip():
             messages.error(request, 'O campo nome não pode ficar em branco')
             return redirect('cadastro_usuario')
+        if not senha.strip():
+            messages.error(request, 'O campo senha não pode ficar em branco')
+            return redirect('cadastro_usuario')
         if senha != senha2:
             messages.error(request, 'As senhas não são iguais')
             return redirect('cadastro_usuario')
@@ -32,6 +35,89 @@ def cadastro_usuario(request):
         return redirect('login')
     
     return render(request, 'cadastro-usuario.html')
+
+
+def listar_usuario(request):
+    usuarios = Usuario.objects.all().order_by('id')
+    for usuario in usuarios:
+        usuario.data_criacao = usuario.data_criacao.strftime("%b %d, %Y")
+    dados = {
+        'usuarios': usuarios
+    }
+    return render (request, 'listar-usuario.html',dados)
+
+
+def crud_usuario(request, usuario_id):
+    usuario = get_object_or_404(Usuario, pk = usuario_id)
+    exibir_usuario = {
+        'usuario':usuario
+    }
+    return render(request, 'usuario.html', exibir_usuario)
+
+
+def deleta_usuario(request, usuario_id):
+    usuario = get_object_or_404(Usuario, pk=usuario_id)
+    usuario.delete()
+    messages.warning(request,'Paciente deletado com sucesso')
+    return redirect('listar_usuarios')
+
+
+def edita_usuario(request):
+    if request.method == 'POST':
+        nome = request.POST['nome']
+        email = request.POST['email']
+        usuario_senha = request.POST['usuario_senha']
+        print('senha atual no banco: '+usuario_senha)
+        senha = request.POST['senha']
+        print('senha atual a ser verificada: '+senha)
+        senha2 = request.POST['senha2']
+        print('nova senha: '+senha2)
+        senha3 = request.POST['senha3']
+        print('comfirmação de nova senha: '+senha3)
+
+
+        if not nome.strip():
+            messages.error(request, 'O campo nome não pode ficar em branco')
+            return redirect('listar_usuarios')
+        if not senha.strip() or not senha2.strip():
+            messages.error(request, 'O campo senha não pode ficar em branco')
+            return redirect('listar_usuarios')
+        if senha != usuario_senha:
+            messages.error(request, 'Essa não é sua senha atual!')
+            return redirect('listar_usuarios')
+        if senha == senha2:
+            messages.error(request, 'A nova senha não pode ser igual à atual')
+            return redirect('listar_usuarios')
+        if senha2 != senha3:
+            messages.error(request, 'As novas senhas não são iguais')
+            return redirect('listar_usuarios')
+        
+        usuario_id = request.POST['usuario_id']
+        usuario = Usuario.objects.get(pk=usuario_id)
+
+        if Usuario.objects.filter(email=email).exists():
+            if usuario.email == email:
+                usuario.nome = nome
+                usuario.senha = senha2
+
+                usuario.save()
+                messages.info(request, 'Usuário atualizado com sucesso')
+                return redirect('listar_usuarios')
+            
+            else:
+
+                messages.error(request, 'Este email já está vinculado a outro usuário')
+                return redirect('listar_usuarios')
+
+        usuario.nome = nome
+        usuario.email = email
+        usuario.senha = senha2
+
+        usuario.save()
+        messages.info(request, 'Usuário atualizado com sucesso')
+        return redirect('listar_usuarios')
+
+    return redirect('listar_usuarios')
 
 
 def cadastro_paciente(request):
@@ -105,19 +191,19 @@ def edita_paciente(request):
 
         if not nome.strip():
             messages.error(request, 'O campo nome não pode ficar em branco')
-            return redirect('edita_paciente')
+            return redirect('listar_pacientes')
         if not endereco.strip():
             messages.error(request, 'O campo endereço não pode ficar em branco')
-            return redirect('edita_paciente')
+            return redirect('listar_pacientes')
         if not cidade.strip():
             messages.error(request, 'O campo cidade não pode ficar em branco')
-            return redirect('edita_paciente')
+            return redirect('listar_pacientes')
         if not uf.strip():
             messages.error(request, 'O campo UF não pode ficar em branco')
-            return redirect('edita_paciente')
+            return redirect('listar_pacientes')
         if not pais.strip():
             messages.error(request, 'O campo Pais não pode ficar em branco')
-            return redirect('edita_paciente')
+            return redirect('listar_pacientes')
 
         paciente_id = request.POST['paciente_id']
         paciente = Paciente.objects.get(pk=paciente_id)
@@ -133,6 +219,7 @@ def edita_paciente(request):
         messages.info(request,'Paciente editado com sucesso')
         return redirect('listar_pacientes')
     return redirect('listar_pacientes')
+
 
 def cadastro_agendamento(request):
     if request.method == 'POST':
@@ -213,6 +300,7 @@ def edita_agendamento(request):
         return redirect('listar_agendamentos')
     
     return redirect('listar_agendamentos')
+
 
 def login(request):
     if request.method == 'POST':

@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="container-home">
+        {% include 'partils/menu.html' %}
+        <div class="area-principal">
+            <div class="contact-area section-padding-0-80" style="margin-top: 2%;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="section-heading">
+                                <h2>#{{usuario.id}} Usuário {{usuario.nome}}</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive-xl">
+                        <table class="table table-bordered" style="background-color: white;">
+                            <thead class="thead-dark">
+                              <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nome</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Data</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <tr >
+                                    <th scope="row">{{usuario.id}}</a></th>
+                                    <td>{{usuario.nome}}</td>
+                                    <td>{{usuario.email}}</td>
+                                    <td>{{usuario.data_criacao}}</td>
+                                </tr>
+                            </tbody>
+                          </table>
+                          <div class="botao-excluir">
+                            <a href="{% url 'deleta_usuario' usuario.id %}" class="btn btn-danger" style="width: 100%;" role="button">Deletar</a>
+                          </div>
+                          <m-accordion>
+                            <details style="margin-bottom: 3%;">
+                                <summary>Editar</summary>
+                                <main>
+                                    <div class="contact-area section-padding-0-80">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="section-heading">
+                                                        <h2 style="margin-bottom: 3%;">Usuário</h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="contact-form-area">
+                                                        <form action="{% url 'edita_usuario' %}" method="POST">
+                                                            {% csrf_token %}
+                                                            <input type="text" id="usuario_id" class="form-control" name="usuario_id" value="{{usuario.id}}" hidden>
+                                                            <input type="text" id="usuario_senha" class="form-control" name="usuario_senha" value="{{usuario.senha}}" hidden>
+                                                            <div class="row">
+                                                                <div class="col-12 col-lg-12">
+                                                                    <label for="nome"><b>Nome completo</b></label>
+                                                                    <input type="text" class="form-control" name="nome" placeholder="Ex.: Ismael Jônatas dos Santos Silva" value="{{usuario.nome}}" required>
+                                                                </div>
+                                                                <div class="col-12 col-lg-12">
+                                                                    <label for="email"><b>Email</b></label>
+                                                                    <input type="email" class="form-control" name="email" placeholder="Ex.: exemplo@servecenet.com" value="{{usuario.email}}" required>
+                                                                </div>
+                                                                <div class="col-12 col-lg-6">
+                                                                    <label for="senha"><b>Senha atual</b></label>
+                                                                    <input type="password" class="form-control" name="senha" placeholder="Digite sua senha" required>
+                                                                </div>
+                                                                <div class="col-12 col-lg-6">
+                                                                    <label for="senha2"><b>Nova senha</b></label>
+                                                                    <input type="password" class="form-control" name="senha2" placeholder="Digite a senha nova" required>
+                                                                </div>
+                                                                <div class="col-12 col-lg-6">
+                                                                    <label for="senha3"><b>Digite novamente a nova senha</b></label>
+                                                                    <input type="password" class="form-control" name="senha3" placeholder="Digite sua senha nova mais uma vez" required>
+                                                                </div>
+                                                                <div class="col-12 text-center">
+                                                                    <button class="btn btn-success" style="margin-top: 2%;" type="submit">Atualizar usuário</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </main>
+                            </details>
+                        </m-accordion>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'partils/footer.html' %}
+    </div>
+{% endblock %}
